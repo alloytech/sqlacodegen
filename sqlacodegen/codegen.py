@@ -587,7 +587,7 @@ class CodeGenerator(object):
                 persist_arg = ', persisted={}'.format(column.server_default.persisted)
 
             server_default = 'Computed({!r}{})'.format(expression, persist_arg)
-        elif column.server_default:
+        elif column.server_default and hasattr(column.server_default, "arg"):
             # The quote escaping does not cover pathological cases but should mostly work
             default_expr = self._get_compiled_expression(column.server_default.arg)
             if '\n' in default_expr:
