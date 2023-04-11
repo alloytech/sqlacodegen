@@ -6,7 +6,6 @@ import re
 import sys
 from collections import defaultdict
 from importlib import import_module
-from inspect import ArgSpec
 from keyword import iskeyword
 from textwrap import dedent
 
@@ -477,16 +476,10 @@ class CodeGenerator(object):
 
     @staticmethod
     def _getargspec_init(method):
-        try:
-            if hasattr(inspect, 'getfullargspec'):
-                return inspect.getfullargspec(method)
-            else:
-                return inspect.getargspec(method)
-        except TypeError:
-            if method is object.__init__:
-                return ArgSpec(['self'], None, None, None)
-            else:
-                return ArgSpec(['self'], 'args', 'kwargs', None)
+        if hasattr(inspect, 'getfullargspec'):
+            return inspect.getfullargspec(method)
+        else:
+            return inspect.getargspec(method)
 
     @classmethod
     def render_column_type(cls, coltype):
