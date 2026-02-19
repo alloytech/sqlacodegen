@@ -668,7 +668,7 @@ class CodeGenerator(object):
             role: Column
             vendor_id: Column
 
-        class _AccountTable(Table):  # pylint: disable=too-many-ancestors,abstract-method
+        class _AccountTable(Table):
             c: _AccountColumns
 
         account: _AccountTable = _t_account  # type: ignore
@@ -686,7 +686,7 @@ class CodeGenerator(object):
         # also Table has abstract methods, we need disable abstract-method too
         # this also forces mypy to believe table_name's c has our defined columns_type
         rendered += dedent(f'''\
-        class {proxy_type}(Table):  # pylint: disable=too-many-ancestors,abstract-method
+        class {proxy_type}(Table):
         {self.indentation}c: {columns_type}
 
         {model.table.name}: {proxy_type} = _t_{model.table.name} # type: ignore
